@@ -24,8 +24,91 @@
     </div>
   </div>
 
-  <div class="printable-area">
-    <!-- Your content here will be printable -->
+  <div class="printable-area-wrapper">
+    <div class="printable-area">
+      <div class="content-wrapper">
+        <div class="heading">
+          <h2>Wohnflächenberechnung nach WoFLV</h2>
+          <p>Diese Wohnflächenberechnung wurde mit Hilfe eines 2-fach DEKRA Zertifizierten Sachverständigen entwickelten
+            Wohnflächenberechnungsprogramm erstellt.
+          </p>
+          <p>Für folgendes Objekt:
+          </p>
+        </div>
+        <div class="object">
+          <div class="description">
+            <textarea class="form-control hidden-textarea" id="object-address" rows="2" placeholder="Musterstraße 123\n12345 Musterstadt"></textarea>
+            <div class="image">
+              <div class="image-placeholder" id="image-placeholder">
+                <span>Bild vom Objekt hochladen</span>
+                <input type="file" id="image-upload" accept="image/*" style="display:none;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <p>Für die Richtigkeit der folgenden Zahlenwerte ist der Verfasser verantwortlich.</p>
+        <div class="author-details">
+        <h4>Verfasserdaten</h4>
+          <div class="form-group">
+            <label for="verfasserdaten">Verfasserdaten:</label>
+            <textarea class="form-control hidden-textarea" id="verfasserdaten" rows="5" placeholder="Max Mustermann\nMusterstraße 123\n12345 Musterstadt\nmax.mustermann@email.de\n0123 234523"></textarea>
+          </div>
+          <div class="small-print">
+            Der Verfasser dieser Wohnflächenberechnung versichert, dass er nach bestem Wissen und
+            Gewissen die Messungen durchgeführt hat.
+          </div>
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <div class="signature-content">
+              <div class="left">
+                Unterschrift / Stempel des Verfassers
+              </div>
+              <div class="right">
+                Ort, Datum
+              </div>
+            </div>
+          </div>
+          <div class="footer-first-page">Inhalt: Deckblatt, Datenblatt und Aufmassblätter</div>
+        </div>
+        <div class="new-page"></div>
+        <div class="heading">
+          <h2>Datenblatt</h2>
+          <p id="currentDate">zur Wohnflächenberechnung nach (WoFLV) erstellt am </p>
+        </div>
+        <div class="person-details">
+          <div class="person-author ">
+            <h4>Verfasser:</h4>
+            <textarea class="form-control hidden-textarea" id="verfasserdaten" rows="3" placeholder="Max Mustermann\nMusterstraße 123\n12345 Musterstadt"></textarea>
+          </div>
+
+          <div class="person-receiver">
+            <h4>Empfänger:</h4>
+            <textarea class="form-control hidden-textarea" id="empfaengerdaten" rows="3" placeholder="Max Mustermann\nMusterstraße 123\n12345 Musterstadt"></textarea>
+          </div>
+        </div>
+        <div class="object-details">
+          <h4>Relevante Objektdaten</h4>
+          <div class="labels">
+            <p>Straße / Hausnummer:</p>
+            <p>PLZ / Ort:</p>
+            <p>Art des Objektes:</p>
+            <p>Anzahl der Etagen:</p>
+            <h5 class="measuring-device">Genutztes Messinstrument</h5>
+          </div>
+
+          <div class="values">
+            <textarea class="form-control hidden-textarea" id="object-daten" rows="4" placeholder="Musterstraße 123\n12345 Musterstadt\nEinfamilienhaus\n2"></textarea>
+            <input class="measuring-device hidden-input" id="object-measuring-details" placeholder="Zollstock"></input>
+          </div>
+        </div>
+        <div class="room-overview">
+          <h4>Übersicht der Wohnflächen der einzelnen Räume</h4>
+
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <footer>

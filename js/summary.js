@@ -48,3 +48,65 @@ document.getElementById('no-button').addEventListener('click', function() {
     // Simply close the modal
     document.getElementById('confirmationModal').style.display = 'none';
 });
+
+// on page load, fill data from json:
+function loadData() {
+    const storedBaseInformations = localStorage.getItem('baseInformations');
+    if (storedBaseInformations) {
+        const formData = JSON.parse(storedBaseInformations);
+        document.getElementById('object-address').placeholder = (formData.street || '') + ' ' + (formData.houseNumber || '') + '\n' + (formData.zipCode || '') + ' ' + (formData.city || '');
+
+        document.getElementById('empfaengerdaten').placeholder = (formData.firstName || '') + ' ' + (formData.lastName || '')+'\n'+(formData.street || '') + ' ' + (formData.houseNumber || '')+'\n'+(formData.zipCode || '') + ' ' + (formData.city || '');
+        document.getElementById('object-daten').placeholder = (formData.street || '') + ' ' + (formData.houseNumber || '')+'\n'+(formData.zipCode || '') + ' ' + (formData.city || '')+'\n'+(formData.objectType || '')+'\n'+(formData.floors || '');
+
+
+        document.getElementById('object-measuring-details').value = (formData.instrument || '');
+    }
+}
+
+function currentDate() {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Monate sind von 0-11
+    const year = date.getFullYear();
+
+    const formattedDate = `${day}.${month}.${year}`;
+    const innerHtml = document.getElementById('currentDate').innerHTML;
+    document.getElementById('currentDate').innerHTML = innerHtml + formattedDate + ".";
+}
+
+function uploadImage() {
+    // Add event listener for image upload
+    const imagePlaceholder = document.getElementById('image-placeholder');
+    const imageUpload = document.getElementById('image-upload');
+
+    imagePlaceholder.addEventListener('click', function() {
+        imageUpload.click();
+    });
+
+    imageUpload.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                imagePlaceholder.innerHTML = '';
+                imagePlaceholder.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadData();
+    uploadImage();
+    currentDate();
+
+    var textAreas = document.getElementsByTagName('textarea');
+
+    Array.prototype.forEach.call(textAreas, function(elem) {
+        elem.placeholder = elem.placeholder.replace(/\\n/g, '\n');
+    });
+});

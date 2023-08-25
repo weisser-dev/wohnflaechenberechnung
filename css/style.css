@@ -2,6 +2,10 @@ footer .btn {
     width: 49%
 }
 
+footer {
+    margin-bottom: 30px;
+}
+
 .button-group-wrapper {
     display: flex;
 }
@@ -58,10 +62,182 @@ footer .btn {
     }
 }
 
-.printable-area {
+.printable-area-wrapper {
     border: 1px solid black;
     border-radius: 0;
-    background-color: lightgrey;
-    margin: 20px;
-    padding: 20px;
+    background-color: #f1f1f1;
+    margin: 20px 0px 20px 0px;
+}
+
+.printable-area {
+
+    margin: 30px;
+
+    .heading {
+        text-align: center;
+    }
+
+    .heading p {
+        font-weight: bold;
+    }
+
+    .content-wrapper {
+        margin: 60px;
+    }
+
+    .description p {
+        margin-bottom: 0px;
+        font-weight: 400;
+    }
+
+    .image {
+        height: 180px;
+        margin-top: -40px;
+    }
+
+    #object-address {
+        z-index: 2;
+        position: relative;
+        width: 40%;
+    }
+
+    .image-placeholder {
+        float: right;
+        width: 240px;
+        height: 180px;
+        background-color: #fefefe;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .image-placeholder img {
+        max-width: 240px;
+        max-height: 180px;
+    }
+
+    .hidden-textarea {
+        border: none;
+        outline: none;
+        background: transparent;
+        resize: none; /* Verhindert, dass die Größe der Textarea geändert werden kann */
+        overflow: hidden;
+        width: 100%;
+        padding: unset;
+    }
+
+    .hidden-input {
+        border: none;
+        outline: none;
+        background: transparent;
+        resize: none; /* Verhindert, dass die Größe der Textarea geändert werden kann */
+        overflow: hidden;
+        width: 100%;
+        padding: unset;
+    }
+
+    .small-print {
+        margin-top: 80px;
+        margin-bottom: 180px;
+    }
+
+    .new-page {
+        page-break-before: always;
+        break-before: page;
+        margin: 70px;
+    }
+
+    .person-details {
+        margin-top: 50px;
+    }
+
+    .person-details p {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .person-details textarea {
+        font-size: 20px;
+        padding: unset;
+        color: #000;
+    }
+
+    .person-author {
+        width: 49%;
+        display: inline-block;
+    }
+
+    .person-receiver {
+        width: 49%;
+        display: inline-block;
+    }
+
+    .labels {
+        width: 49%;
+        display: inline-block;
+        font-size: 20px;
+        margin-bottom: 0px;
+    }
+
+    .values {
+        width: 49%;
+        display: inline-block;
+        font-size: 20px;
+    }
+
+    .values textarea {
+        font-size: 20px;
+    }
+
+
+.labels p {
+        margin-bottom:0px;
+    }
+
+    .values p {
+        margin-bottom:0px;
+    }
+
+    .measuring-device {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .signature-box {
+        border: 1px solid black;
+        padding: 20px;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        margin-bottom: 30px;
+    }
+
+    .signature-line {
+        height: 1px;
+        background: black;
+        border: solid 1px black;
+        margin-top: 100px;  /* Platz für die Unterschrift */
+    }
+
+    .signature-content {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .left, .right {
+        flex: 1;
+    }
+
+    .object-details {
+        margin-top: 30px;
+    }
+
+    .room-overview {
+        margin-top: 60px;
+    }
+
+
 }
