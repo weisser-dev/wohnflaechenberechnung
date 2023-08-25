@@ -1,0 +1,138 @@
+<html lang="de"><head><meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wohnflächenberechnung</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="" style="">
+
+<div class="container">
+  <div class="text-center mt-5">
+    <h1 id="main-title">Wohnflächenberechnung</h1>
+    <h2>Räume anlegen</h2>
+    <p>Auf dieser Seite kannst du deine verschiedenen Räume anlegen, welche für die Wohnflächenberechnung berücksichtigt werden sollen.</p>
+  </div>
+  <div class="button-group float-left">
+    <button id="import-data" class="btn btn-secondary rounded-sm mt-2">
+      <i class="fas fa-file-import"></i>
+    </button>
+    <button id="export-data" class="btn btn-secondary rounded-sm mt-2">
+      <i class="fas fa-file-export"></i>
+    </button>
+  </div>
+  <div class="button-group float-right">
+    <button id="add-room" class="btn btn-primary mt-2" data-toggle="modal" data-target="#roomModal">Hinzufügen</button>
+  </div>
+
+  <table id="room-table" class="table mt-4">
+    <thead>
+    <tr>
+      <th>Raumname</th>
+      <th>Teilbereiche</th>
+      <th>Art</th>
+      <th>Fläche Gesamt</th>
+      <th>Aktionen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Room rows will go here -->
+    </tbody>
+  </table>
+</div>
+<div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="roomModalLabel">Raum hinzufügen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="room-form">
+          <div class="form-group">
+            <label for="room-name">Raumname</label>
+            <input type="text" class="form-control" id="room-name" required="">
+          </div>
+          <div class="form-group">
+            <label for="room-type">Raumart</label>
+            <select class="form-control" id="room-type">
+              <option value="W">Wohnfläche</option>
+              <option value="N">Nutzfläche</option>
+            </select>
+          </div>
+          <div id="area-section">
+            <div class="form-row area-row">
+              <div class="col-12 formsection">
+                <label>Teilbereich</label>
+                <div class="d-flex align-items-center">
+                  <select class="form-control shape mr-2">
+                    <option value="rectangle">Rechteck</option>
+                    <option value="triangle">Dreieck</option>
+                    <option value="circle">Kreis</option>
+                  </select>
+                  <button class="btn btn-info info-icon" data-toggle="modal" data-target="#infoModal">i</button>
+                </div>
+              </div>
+              <div class="col dimensions rectangle">
+                <input type="text" class="form-control length" placeholder="Länge">
+              </div>
+              <div class="col dimensions rectangle">
+                <input type="text" class="form-control width" placeholder="Breite">
+              </div>
+              <div class="col dimensions triangle" style="display:none;">
+                <input type="text" class="form-control base" placeholder="Basis">
+              </div>
+              <div class="col dimensions triangle" style="display:none;">
+                <input type="text" class="form-control height-triangle" placeholder="Höhe">
+              </div>
+              <div class="col dimensions circle" style="display:none;">
+                <input type="text" class="form-control radius" placeholder="Radius">
+              </div>
+              <div class="col">
+                <select class="form-control height">
+                  <option value="1">&gt;2m (100%)</option>
+                  <option value="0.5">&gt;1m (50%)</option>
+                  <option value="0">&lt;1m (0%)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Abbrechen</button>
+        <button type="button" id="save-room" class="btn btn-success">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Flächenberechnung</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="svg-container">
+          <!-- SVGs werden hier eingefügt -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="container mt-5 fixed-bottom mb-4" style="">
+  <button id="prev-page" class="btn btn-danger">Zurück</button>
+  <button id="next-page" class="btn btn-success">Weiter</button>
+</footer>
+<script src="js/rooms.js"></script>
+
+</body></html>

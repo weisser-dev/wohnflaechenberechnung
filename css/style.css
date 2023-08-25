@@ -1,0 +1,44 @@
+footer .btn {
+    width: 49%
+}
+
+.button-group-wrapper {
+    display: flex;
+}
+
+.button-group {
+    margin-bottom: 20px;
+}
+
+.continue-btn {
+    width: 100%;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.roomEnd {
+    border-bottom: 2px solid #dee2e6;
+}
+
+#room-table {
+    margin-bottom: 100px;
+}
+
+.formsection {
+    margin-bottom: 10px;
+}
+
+.btn-info {
+    color: #000;
+    border-color: #ced4da;
+    border-radius: 37px;
+    font-size: 10px;
+    font-weight: 700;
+    background-color: #fff;
+}
