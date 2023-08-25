@@ -42,3 +42,26 @@ footer .btn {
     font-weight: 700;
     background-color: #fff;
 }
+ /* summary page */
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .printable-area, .printable-area * {
+        visibility: visible;
+    }
+    .printable-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+
+.printable-area {
+    border: 1px solid black;
+    border-radius: 0;
+    background-color: lightgrey;
+    margin: 20px;
+    padding: 20px;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wohnflächenberechnung - Zusammenfassung</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div class="text-center mt-5">
+    <h1>Zusammenfassung</h1>
+  </div>
+  <div class="button-group-wrapper">
+    <div class="button-group float-left">
+      <button id="export-icon" class="btn btn-secondary rounded-sm mt-2">
+        <i class="fas fa-file-export"></i>
+      </button>
+      <button id="print-icon" class="btn btn-secondary rounded-sm mt-2">
+        <i class="fas fa-print"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="printable-area">
+    <!-- Your content here will be printable -->
+  </div>
+
+  <footer>
+    <button id="go-back" class="btn btn-primary">Zurück</button>
+    <button id="new-calculation" class="btn btn-danger">Neue Wohnflächenberechnung</button>
+  </footer>
+
+  <!-- Modal -->
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+      <p>Möchten Sie wirklich eine neue Wohnflächenberechnung starten? Alle ihre jetzigen Informationen gehen verloren, da diese nur lokal gespeichert sind.</p>
+      <button id="yes-button">Ja</button>
+      <button id="no-button">Nein</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/summary.js"></script>
+</body>
+</html>

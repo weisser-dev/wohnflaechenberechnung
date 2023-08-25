@@ -29,25 +29,6 @@ document.addEventListener('click', function(event) {
   }
 });
 
-// Exportieren der Daten als JSON-Datei
-document.getElementById('export-data').addEventListener('click', function() {
-  const data = {};
-  for (const key in localStorage) {
-    if (key.startsWith('room_') || key === 'baseInformations' ) {
-      data[key] = JSON.parse(localStorage.getItem(key));
-    }
-  }
-  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'luna_whnflchbrn_backup.json';
-  a.click();
-  URL.revokeObjectURL(url);
-});
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
   const baseInformations = JSON.parse(localStorage.getItem('baseInformations')) || {};
   const mainTitle = document.getElementById('main-title');
@@ -170,6 +151,8 @@ document.addEventListener('DOMContentLoaded', function() {
         totalRow.insertCell(1);
         totalRow.insertCell(2);
         const totalCell = totalRow.insertCell(3);
+
+        totalRow.insertCell(4);
         totalCell.innerText = totalArea.toFixed(2) + 'm²';
 
         totalRow.classList.add('roomEnd');
@@ -191,26 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   displayRooms();
-
-  // Importieren der Daten aus einer JSON-Datei
-  document.getElementById('import-data').addEventListener('click', function() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'application/json';
-    input.addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const data = JSON.parse(event.target.result);
-        for (const key in data) {
-          localStorage.setItem(key, JSON.stringify(data[key]));
-        }
-        displayRooms(); // Aktualisieren der Tabelle
-      };
-      reader.readAsText(file);
-    });
-    input.click();
-  });
 
   if (baseInformations.objectType && baseInformations.street && baseInformations.houseNumber) {
     mainTitle.textContent = `${baseInformations.objectType} - ${baseInformations.street} ${baseInformations.houseNumber}`;

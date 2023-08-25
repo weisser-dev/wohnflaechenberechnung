@@ -1,7 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const nextPageButton = document.getElementById('next-page');
-
-  // Überprüfen, ob baseInformations im localStorage vorhanden ist
+function displayRooms() {
   const storedBaseInformations = localStorage.getItem('baseInformations');
   if (storedBaseInformations) {
     const formData = JSON.parse(storedBaseInformations);
@@ -15,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('instrument').value = formData.instrument || 'Zollstock';
     document.getElementById('floors').value = formData.floors || '';
   }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const nextPageButton = document.getElementById('next-page');
 
   nextPageButton.addEventListener('click', function() {
     const formData = {
@@ -31,4 +32,5 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('baseInformations', JSON.stringify(formData));
     window.location.href = 'rooms.html';
   });
+  displayRooms();
 });
