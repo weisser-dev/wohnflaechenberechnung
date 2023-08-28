@@ -1,0 +1,15 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Draw the triangle -->
+    <polygon points="50,150 250,50 450,150" stroke="black" stroke-width="2" fill="none"/>
+
+    <!-- Label the base -->
+    <line x1="50" y1="155" x2="450" y2="155" stroke="black" stroke-width="1"/>
+    <text x="220" y="170" font-family="Robo" font-size="12">Basis</text>
+
+    <!-- Label the height -->
+    <line x1="250" y1="50" x2="250" y2="150" stroke="black" stroke-width="1"/>
+    <text x="255" y="100" font-family="Robo" font-size="12">Höhe</text>
+
+    <!-- Display the formula -->
+    <text x="0" y="190" font-family="Robo" font-size="24">Fläche = 1/2 × Basis × Höhe</text>
+</svg>

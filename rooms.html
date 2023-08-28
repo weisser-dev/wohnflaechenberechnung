@@ -1,16 +1,17 @@
-<html lang="de"><head><meta charset="UTF-8">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wohnflächenberechnung</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body class="" style="">
-
 <div class="container">
   <div class="text-center mt-5">
     <h1 id="main-title">Wohnflächenberechnung</h1>
@@ -25,9 +26,6 @@
       <i class="fas fa-file-export"></i>
     </button>
   </div>
-  <div class="button-group float-right">
-    <button id="add-room" class="btn btn-primary mt-2" data-toggle="modal" data-target="#roomModal">Hinzufügen</button>
-  </div>
 
   <table id="room-table" class="table mt-4">
     <thead>
@@ -36,13 +34,20 @@
       <th>Teilbereiche</th>
       <th>Art</th>
       <th>Fläche</th>
-      <th>Aktionen</th>
+      <th class="text-right">Aktionen</th>
     </tr>
     </thead>
     <tbody>
     <!-- Room rows will go here -->
     </tbody>
   </table>
+  <div id="empty-table-message" class="text-center mt-4" style="display: none;">
+    <p>Es sind noch keine Daten vorhanden, klicke hier um den 1. Raum hinzuzufügen</p>
+    <button id="add-room-empty" class="btn btn-primary mt-2" data-toggle="modal" data-target="#roomModal">Hinzufügen</button>
+  </div>
+  <div id="table-actions" class="text-left mt-2" style="display: none;">
+    <button id="add-room" class="btn btn-primary mt-2 float-right" data-toggle="modal" data-target="#roomModal">Hinzufügen</button>
+  </div>
 </div>
 <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" style="display: none;" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -57,14 +62,27 @@
         <form id="room-form">
           <div class="form-group">
             <label for="room-name">Raumname</label>
-            <input type="text" class="form-control" id="room-name" required="">
+            <input type="text" class="form-control" id="room-name" required="" />
           </div>
           <div class="form-group">
-            <label for="room-type">Raumart</label>
-            <select class="form-control" id="room-type">
-              <option value="W">Wohnfläche</option>
-              <option value="N">Nutzfläche</option>
-            </select>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="room-type">Raumart</label>
+                <select class="form-control" id="room-type">
+                  <option value="W">Wohnfläche</option>
+                  <option value="N">Nutzfläche</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="room-type">Geschoss</label>
+                <select class="form-control" id="room-floor">
+                  <option value="EG">Erdgeschoss</option>
+                  <option value="OG">Obergeschoss</option>
+                  <option value="KG">Keller</option>
+                  <option value="DG">Dachgeschoss</option>
+                </select>
+              </div>
+            </div>
           </div>
           <div id="area-section">
             <div class="form-row area-row">
@@ -80,19 +98,19 @@
                 </div>
               </div>
               <div class="col dimensions rectangle">
-                <input type="text" class="form-control length" placeholder="Länge">
+                <input type="text" class="form-control length" placeholder="Länge" />
               </div>
               <div class="col dimensions rectangle">
-                <input type="text" class="form-control width" placeholder="Breite">
+                <input type="text" class="form-control width" placeholder="Breite" />
               </div>
-              <div class="col dimensions triangle" style="display:none;">
-                <input type="text" class="form-control base" placeholder="Basis">
+              <div class="col dimensions triangle" style="display: none;">
+                <input type="text" class="form-control base" placeholder="Basis" />
               </div>
-              <div class="col dimensions triangle" style="display:none;">
-                <input type="text" class="form-control height-triangle" placeholder="Höhe">
+              <div class="col dimensions triangle" style="display: none;">
+                <input type="text" class="form-control height-triangle" placeholder="Höhe" />
               </div>
-              <div class="col dimensions circle" style="display:none;">
-                <input type="text" class="form-control radius" placeholder="Radius">
+              <div class="col dimensions circle" style="display: none;">
+                <input type="text" class="form-control radius" placeholder="Radius" />
               </div>
               <div class="col">
                 <select class="form-control height">
@@ -135,5 +153,5 @@
 </footer>
 <script src="js/rooms.js"></script>
 <script src="js/utils.js"></script>
-
-</body></html>
+</body>
+</html>

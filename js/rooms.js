@@ -6,6 +6,10 @@ function convertToMeters(value) {
   return parseFloat(value);
 }
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function generateUID() {
   return '_' + Math.random().toString(36).substr(2, 9);
 }
@@ -18,13 +22,12 @@ document.addEventListener('click', function(event) {
 
     let svg = '';
     if (shape === 'rectangle') {
-      svg = '<svg><rect width="50" height="30" style="fill:blue;"></rect></svg>';
+      svg = '<object data="img/rectangle.svg" type="image/svg+xml"></object>'
     } else if (shape === 'triangle') {
-      svg = '<svg><polygon points="25,0 50,50 0,50" style="fill:blue;"></polygon></svg>';
+      svg = '<object data="img/triangle.svg" type="image/svg+xml"></object>'
     } else if (shape === 'circle') {
-      svg = '<svg><circle cx="25" cy="25" r="20" style="fill:blue;"></circle></svg>';
+      svg = '<object data="img/circle.svg" type="image/svg+xml"></object>'
     }
-
     svgContainer.innerHTML = svg;
   }
 });
@@ -36,22 +39,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const areaSection = document.getElementById('area-section');
 
   let currentEditingKey = null;
+
   function editRoom(key) {
-    currentEditingKey = key; // Setzen des aktuellen Schlüssels
+    currentEditingKey = key;
     const roomData = JSON.parse(localStorage.getItem(key));
     document.getElementById('room-name').value = roomData.roomName;
     document.getElementById('room-type').value = roomData.roomType;
+    document.getElementById('room-floor').value = roomData.roomFloor;
 
-    // Löschen der bestehenden "area"-Reihen im Modal
     while (areaSection.firstChild) {
       areaSection.removeChild(areaSection.firstChild);
     }
 
-    // Hinzufügen der bestehenden "areas" ins Modal
     roomData.areas.forEach((area, index) => {
-      // Erstellen Sie hier einen neuen "area"-Reihe im Modal.
-      // Sie können den gleichen Code verwenden, den Sie für das Hinzufügen neuer "areas" verwenden,
-      // aber füllen Sie die Felder mit den Werten aus `area`.
 
       const newRow = document.createElement('div');
       newRow.className = 'form-row area-row';
@@ -99,29 +99,31 @@ document.addEventListener('DOMContentLoaded', function() {
   function displayRooms() {
     roomTable.innerHTML = '';
     let totalAreaSum = 0;
+    let roomCount = 0;
     for (const key in localStorage) {
       if (key.startsWith('room_')) {
+        roomCount++;
         const roomData = JSON.parse(localStorage.getItem(key));
         let totalArea = 0;
         roomData.areas.forEach((area, index) => {
           const areaRow = roomTable.insertRow();
           if (index === 0) {
             const cell = areaRow.insertCell(0);
-            cell.innerText = roomData.roomName;
+            cell.innerText = roomData.roomName + " (" + roomData?.roomFloor + ")";
             areaRow.classList.add('roomStart');
 
-            // Neue Buttons für Bearbeiten und Löschen
             const actionCell = areaRow.insertCell(1);
+            actionCell.classList.add('text-right');
             const editButton = document.createElement('button');
             editButton.className = 'btn btn-warning btn-sm';
-            editButton.innerHTML = '<i class="fas fa-cog"></i>'; // FontAwesome Zahnrad-Icon
+            editButton.innerHTML = '<i class="fas fa-cog"></i>';
             editButton.addEventListener('click', function() {
               editRoom(key);
             });
 
             const deleteButton = document.createElement('button');
             deleteButton.className = 'btn btn-danger btn-sm ml-2';
-            deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // FontAwesome Papierkorb-Icon
+            deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
             deleteButton.addEventListener('click', function() {
               deleteRoom(key);
             });
@@ -134,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           const areaSize = area.length * area.width * parseFloat(area.height);
           totalArea += areaSize;
-          areaRow.insertCell(1).innerText = `${area.length}m x ${area.width}m`;
+          areaRow.insertCell(1).innerText = `${area.length.toFixed(2)}m x ${area.width.toFixed(2)}m`;
 
           let areaType = roomData.roomType;
           if (area.height === '0.5') {
@@ -158,6 +160,15 @@ document.addEventListener('DOMContentLoaded', function() {
         totalRow.classList.add('roomEnd');
       }
     }
+    //show add button
+    if (roomCount === 0) {
+      document.getElementById('empty-table-message').style.display = 'block';
+      document.getElementById('table-actions').style.display = 'none'; // Verstecken des Buttons unter der Tabelle
+    } else {
+      document.getElementById('empty-table-message').style.display = 'none';
+      document.getElementById('table-actions').style.display = 'block'; // Anzeigen des Buttons unter der Tabelle
+    }
+
     if (totalAreaSum > 0) {
       const totalRow = roomTable.insertRow();
       totalRow.insertCell(0).innerText = 'Gesamt';
@@ -181,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
     mainTitle.textContent = 'Wohnflächenberechnung';
   }
 
-  const tooltipDelay = 3000; // 3 Sekunden in Millisekunden
+  const tooltipDelay = 3000;
   let tooltipTimer;
 
   roomTable.addEventListener('mouseover', function(event) {
@@ -219,22 +230,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  const addRoomButton = document.getElementById('add-room');
-
-  addRoomButton.addEventListener('click', function() {
-    // Setzen Sie den aktuellen Schlüssel zurück
+  function addRoom() {
     currentEditingKey = null;
 
-    // Setzen Sie die Werte im Modal zurück
     document.getElementById('room-name').value = '';
-    document.getElementById('room-type').value = 'W'; // Setzen Sie dies auf den Standardwert
+    document.getElementById('room-type').value = 'W';
 
-    // Entfernen Sie alle zusätzlichen "area"-Reihen
     while (areaSection.firstChild) {
       areaSection.removeChild(areaSection.firstChild);
     }
 
-    // Fügen Sie eine leere "area"-Reihe hinzu (Sie können den gleichen Code wie in der `editRoom` Funktion verwenden)
     const newRow = document.createElement('div');
     newRow.className = 'form-row area-row';
     newRow.innerHTML = `
@@ -264,17 +269,28 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     `;
     areaSection.appendChild(newRow);
+  }
+
+  const addEmptyRoomButton = document.getElementById('add-room-empty');
+  const addRoomButton = document.getElementById('add-room');
+
+  addEmptyRoomButton.addEventListener('click', function() {
+    addRoom();
+  });
+  addRoomButton.addEventListener('click', function() {
+    addRoom();
   });
 
   saveRoomButton.addEventListener('click', function() {
-    const roomName = document.getElementById('room-name').value;
+    const roomName = capitalizeFirstLetter(document.getElementById('room-name').value);
     const roomType = document.getElementById('room-type').value;
-    const uid = currentEditingKey ? currentEditingKey : generateUID(); // Verwenden Sie den aktuellen Schlüssel, wenn vorhanden
+    const roomFloor = document.getElementById('room-floor').value;
+    const uid = currentEditingKey ? currentEditingKey : generateUID();
     const roomKey = currentEditingKey ? currentEditingKey : `room_${roomName}${uid}`;
-
     const roomData = {
       roomName,
       roomType,
+      roomFloor,
       areas: []
     };
 
@@ -288,18 +304,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const length = convertToMeters(lengthInput);
         const width = convertToMeters(widthInput);
 
-        roomData.areas.push({ shape, length, width, height });
+        roomData.areas.push({
+          shape,
+          length,
+          width,
+          height
+        });
       }
     });
 
     localStorage.setItem(roomKey, JSON.stringify(roomData));
 
     if (currentEditingKey && currentEditingKey !== uid) {
-      // Wenn wir einen Raum bearbeiten, entfernen Sie den alten Eintrag
       localStorage.removeItem(currentEditingKey);
     }
-
-    currentEditingKey = null; // Zurücksetzen des aktuellen Schlüssels
+    currentEditingKey = null;
     $('#roomModal').modal('hide');
     displayRooms();
   });

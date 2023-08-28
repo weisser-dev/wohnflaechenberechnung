@@ -1,0 +1,15 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Draw the rectangle -->
+    <rect x="50" y="50" width="200" height="50" stroke="black" stroke-width="2" fill="none"/>
+
+    <!-- Label the length -->
+    <line x1="50" y1="45" x2="250" y2="45" stroke="black" stroke-width="1"/>
+    <text x="90" y="40" font-family="Robo" font-size="12">Länge</text>
+
+    <!-- Label the width -->
+    <line x1="45" y1="50" x2="45" y2="100" stroke="black" stroke-width="1"/>
+    <text x="5" y="80" font-family="Robo" font-size="12" transform="rotate(-90 20,80)">Breite</text>
+
+    <!-- Display the formula -->
+    <text x="0" y="140" font-family="Robo" font-size="24">Fläche = Länge × Breite</text>
+</svg>

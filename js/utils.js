@@ -7,7 +7,9 @@ function exportData() {
             data[key] = JSON.parse(localStorage.getItem(key));
         }
     }
-    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(data)], {
+        type: 'application/json'
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -31,7 +33,7 @@ function importData() {
             }
             try {
                 displayRooms();
-            } catch(error) {
+            } catch (error) {
                 console.log("displayRooms function only available on rooms page");
             }
 

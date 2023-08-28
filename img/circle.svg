@@ -1,0 +1,11 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Draw the circle -->
+    <circle cx="200" cy="100" r="50" stroke="black" stroke-width="2" fill="none"/>
+
+    <!-- Label the radius -->
+    <line x1="200" y1="100" x2="250" y2="100" stroke="black" stroke-width="1"/>
+    <text x="220" y="95" font-family="Robo" font-size="12">Radius</text>
+
+    <!-- Display the formula -->
+    <text x="0" y="180" font-family="Robo" font-size="24">Fläche = π × Radius²</text>
+</svg>
