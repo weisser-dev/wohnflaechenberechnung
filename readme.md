@@ -53,7 +53,7 @@ No installation is required as it is a web application. Simply open the `index.h
 
 ---
 
-# README.md für die Wohnflächenberechnungs-App
+### German Description
 
 ## Übersicht
 
