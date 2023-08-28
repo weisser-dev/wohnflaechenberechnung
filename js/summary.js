@@ -1,22 +1,3 @@
-// Function to export data
-function exportDataAsJson() {
-    const data = {};
-    for (const key in localStorage) {
-        if (key.startsWith('room_') || key === 'baseInformations') {
-            data[key] = JSON.parse(localStorage.getItem(key));
-        }
-    }
-    const blob = new Blob([JSON.stringify(data)], {
-        type: 'application/json'
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'backup.json';
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
 // Function to initiate print
 function printPage() {
     window.print();
@@ -79,21 +60,16 @@ function displaySummary() {
 }
 
 // Event listeners
-document.getElementById('export-icon').addEventListener('click', exportDataAsJson);
 document.getElementById('print-icon').addEventListener('click', printPage);
 document.getElementById('go-back').addEventListener('click', goBackToRooms);
 document.getElementById('new-calculation').addEventListener('click', function() {
     // Show the modal
-    document.getElementById('confirmationModal').style.display = 'block';
+    $('#confirmationModal').modal('show');
 });
 document.getElementById('yes-button').addEventListener('click', function() {
     // Close the modal and start new calculation
     document.getElementById('confirmationModal').style.display = 'none';
     startNewCalculation();
-});
-document.getElementById('no-button').addEventListener('click', function() {
-    // Simply close the modal
-    document.getElementById('confirmationModal').style.display = 'none';
 });
 
 // on page load, fill data from json:
@@ -101,13 +77,53 @@ function loadData() {
     const storedBaseInformations = localStorage.getItem('baseInformations');
     if (storedBaseInformations) {
         const formData = JSON.parse(storedBaseInformations);
-        document.getElementById('object-address').placeholder = (formData.street || '') + ' ' + (formData.houseNumber || '') + '\n' + (formData.zipCode || '') + ' ' + (formData.city || '');
 
-        document.getElementById('empfaengerdaten').placeholder = (formData.firstName || '') + ' ' + (formData.lastName || '') + '\n' + (formData.street || '') + ' ' + (formData.houseNumber || '') + '\n' + (formData.zipCode || '') + ' ' + (formData.city || '');
-        document.getElementById('object-daten').placeholder = (formData.street || '') + ' ' + (formData.houseNumber || '') + '\n' + (formData.zipCode || '') + ' ' + (formData.city || '') + '\n' + (formData.objectType || '') + '\n' + (formData.floors || '');
+        // Verfasser / Gutachter
+        document.getElementById('verfasserdaten_top').placeholder =
+          (formData.authorFirstName || '') + ' ' +
+          (formData.authorLastName || '') + '\n' +
+          (formData.company || '') + '\n' +
+          (formData.authorStreet || '') + ' ' +
+          (formData.authorHouseNumber || '') + '\n' +
+          (formData.authorZipCode || '') + ' ' +
+          (formData.authorCity || '') + '\n' +
+          (formData.mobile || '') + '\n' +
+          (formData.email || '');
 
+        document.getElementById('verfasserdaten_bottom').placeholder =
+          (formData.authorFirstName || '') + ' ' +
+          (formData.authorLastName || '') + '\n' +
+          (formData.authorStreet || '') + ' ' +
+          (formData.authorHouseNumber || '') + '\n' +
+          (formData.authorZipCode || '') + ' ' +
+          (formData.authorCity || '') + '\n';
 
-        document.getElementById('object-measuring-details').value = (formData.instrument || '');
+        // Empfänger / Kunde
+        document.getElementById('empfaengerdaten').placeholder =
+          (formData.recipientFirstName || '') + ' ' +
+          (formData.recipientLastName || '') + '\n' +
+          (formData.recipientStreet || '') + ' ' +
+          (formData.recipientHouseNumber || '') + '\n' +
+          (formData.recipientZipCode || '') + ' ' +
+          (formData.recipientCity || '');
+
+        // Objekt
+        document.getElementById('object-address-top').placeholder =
+          (formData.street || '') + ' ' +
+          (formData.houseNumber || '') + '\n' +
+          (formData.zipCode || '') + ' ' +
+          (formData.city || '');
+
+        document.getElementById('object-address-bottom').placeholder =
+          (formData.street || '') + ' ' +
+          (formData.houseNumber || '') + '\n' +
+          (formData.zipCode || '') + ' ' +
+          (formData.city || '') + '\n' +
+          (formData.objectType || '') + '\n' +
+          (formData.floors || '');
+
+        document.getElementById('object-measuring-details').value =
+          (formData.instrument || '');
     }
 }
 

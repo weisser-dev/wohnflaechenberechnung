@@ -34,6 +34,7 @@ function importData() {
             try {
                 displayRooms();
             } catch (error) {
+                window.location.reload();
                 console.log("displayRooms function only available on rooms page");
             }
 
@@ -42,6 +43,56 @@ function importData() {
     });
     input.click();
 }
+
+function createModal() {
+    const modalHTML = `
+    <div class="modal fade" id="clearModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Daten löschen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Möchtest du alle eingegebenen Daten löschen? Dies kann nicht rückgängig gemacht werden, alle Daten gehen dadurch verloren. <a href="#" id="backup-link">Klicke hier</a>, falls du ein Backup möchtest.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="confirm-clear">Ja</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    document.getElementById('confirm-clear').addEventListener('click', function() {
+        localStorage.clear();
+        $('#clearModal').modal('hide');
+        window.location.reload();
+    });
+
+    document.getElementById('backup-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        exportData();
+    });
+}
+function openClearModal() {
+    $('#clearModal').modal('show');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('clear-data').addEventListener('click', function() {
+        if (!document.getElementById('clearModal')) {
+            createModal();
+        }
+        openClearModal();
+    });
+});
+
 
 document.getElementById('export-data').addEventListener('click', exportData);
 document.getElementById('import-data').addEventListener('click', importData);

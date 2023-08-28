@@ -3,9 +3,12 @@
   <meta charset="UTF-8" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wohnflächenberechnung mit Luna</title>
+  <title>Wohnflächenberechnung</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
@@ -21,63 +24,166 @@
       <button id="export-data" class="btn btn-secondary rounded-sm mt-2">
         <i class="fas fa-file-export"></i>
       </button>
+      <button id="clear-data" class="btn btn-danger rounded-sm mt-2">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="alert alert-info" role="alert">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div class="mx-auto text-center">
+          Allgemeine Informationen / Datenspeicherung
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#infoText" aria-expanded="false" aria-controls="infoText">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="collapse" id="infoText">
+      <h4 class="alert-heading">Wichtige Informationen zur Datenspeicherung</h4>
+      <p>Dieses Programm ermöglicht die einfache Erstellung einer Wohnflächenberechnung sowie des zugehörigen PDFs. Als Verfasser (z.B. Gutachter, Architekt usw.) können Sie hier die Daten sowohl für den Kunden als auch für das Objekt eingeben. Auf der letzten Seite erhalten Sie eine Auswertung, die ausgedruckt werden kann. Es gibt keine Pflichtfelder; alle Angaben sind optional. Wenn keine Informationen eingegeben werden, wird auf der letzten Seite lediglich eine Vorlage für ein mögliches PDF angezeigt.</p>
+      <hr>
+      <p class="mb-0">Es besteht die Möglichkeit, alle eingegebenen Informationen als JSON-Datei (ein gängiges Datenformat) zu exportieren und später wieder zu importieren. Alle Daten werden ausschließlich lokal auf Ihrem Gerät (Handy, Tablet oder PC) gespeichert und nicht im Internet. Sie können die Daten jederzeit unwiderruflich löschen, entweder durch Klicken <a href="#">hier</a>, durch Klicken auf das rote Icon oben links oder auf der letzten Seite durch Klicken auf "Neue Wohnflächenberechnung". Wenn Sie mehrere Berechnungen durchführen möchten, empfiehlt es sich, die fertige Berechnung am Ende zu exportieren und zu speichern.</p>
     </div>
   </div>
   <form id="start-form">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="firstName">Vorname:</label>
-        <input type="text" class="form-control" id="firstName" />
+    <fieldset>
+      <legend>Verfasser / Gutachter</legend>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="authorFirstName">Vorname:</label>
+          <input type="text" class="form-control" id="authorFirstName" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="authorLastName">Nachname:</label>
+          <input type="text" class="form-control" id="authorLastName" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
       </div>
-      <div class="form-group col-md-6">
-        <label for="lastName">Nachname:</label>
-        <input type="text" class="form-control" id="lastName" />
+      <div class="form-group">
+        <label for="company">Firma:</label>
+        <input type="text" class="form-control" id="company" />
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="street">Straße:</label>
-        <input type="text" class="form-control" id="street" />
+      <!-- Anschrift -->
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="authorStreet">Straße:</label>
+          <input type="text" class="form-control" id="authorStreet" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="authorHouseNumber">Nr:</label>
+          <input type="text" class="form-control" id="authorHouseNumber" pattern="[a-zA-Z0-9\s-]+" title="Buchstaben und Zahlen erlaubt" />
+        </div>
       </div>
-      <div class="form-group col-md-6">
-        <label for="houseNumber">Nr:</label>
-        <input type="text" class="form-control" id="houseNumber" maxlength="4" />
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="authorZipCode">PLZ:</label>
+          <input type="text" class="form-control" id="authorZipCode" pattern="\d{5}" title="Fünfstellige PLZ" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="authorCity">Ort:</label>
+          <input type="text" class="form-control" id="authorCity" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="zipCode">PLZ:</label>
-        <input type="text" class="form-control" id="zipCode" maxlength="5" />
+      <div class="form-group">
+        <label for="mobile">Handynummer:</label>
+        <input type="tel" class="form-control" id="mobile" pattern="\+?[0-9\s-]+" title="Nur Zahlen und eventuell ein Pluszeichen am Anfang erlaubt" />
       </div>
-      <div class="form-group col-md-6">
-        <label for="city">Ort:</label>
-        <input type="text" class="form-control" id="city" />
+      <div class="form-group">
+        <label for="email">E-Mail Adresse:</label>
+        <input type="email" class="form-control" id="email" />
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="instrument">Genutztes Messinstrument:</label>
-        <select class="form-control" id="instrument">
-          <option>Zollstock</option>
-          <option>Maßband</option>
-          <option>Lasermessgerät</option>
-        </select>
+    </fieldset>
+
+    <!-- Empfänger / Kunde -->
+    <fieldset>
+      <legend>Empfänger / Kunde</legend>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="recipientFirstName">Vorname:</label>
+          <input type="text" class="form-control" id="recipientFirstName" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="recipientLastName">Nachname:</label>
+          <input type="text" class="form-control" id="recipientLastName" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
       </div>
-      <div class="form-group col-md-4">
-        <label for="objectType">Art des Objektes:</label>
-        <select class="form-control" id="objectType">
-          <option>Einfamilienhaus</option>
-          <option>Mehrfamilienhaus</option>
-          <option>Wohnung</option>
-          <option>Sonstige</option>
-        </select>
+      <!-- Anschrift -->
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="recipientStreet">Straße:</label>
+          <input type="text" class="form-control" id="recipientStreet" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="recipientHouseNumber">Nr:</label>
+          <input type="text" class="form-control" id="recipientHouseNumber" pattern="[a-zA-Z0-9\s-]+" title="Buchstaben und Zahlen erlaubt" />
+        </div>
       </div>
-      <div class="form-group col-md-4">
-        <label for="floors">Anzahl der Vollgeschosse:</label>
-        <input type="number" class="form-control" id="floors" />
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="recipientZipCode">PLZ:</label>
+          <input type="text" class="form-control" id="recipientZipCode" pattern="\d{5}" title="Fünfstellige PLZ" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="recipientCity">Ort:</label>
+          <input type="text" class="form-control" id="recipientCity" pattern="[a-zA-ZäöüÄÖÜß\s-]+" title="Nur Buchstaben und Leerzeichen erlaubt" />
+        </div>
       </div>
-    </div>
+    </fieldset>
+    <!-- Objekt -->
+    <fieldset>
+      <legend>Objekt</legend>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="street">Straße:</label>
+          <input type="text" class="form-control" id="street" pattern="[a-zA-ZäöüÄÖÜß\s-]+" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="houseNumber">Nr:</label>
+          <input type="text" class="form-control" id="houseNumber" pattern="[a-zA-Z0-9\s-]+" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="zipCode">PLZ:</label>
+          <input type="text" class="form-control" id="zipCode" pattern="\d{5}" />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="city">Ort:</label>
+          <input type="text" class="form-control" id="city" pattern="[a-zA-ZäöüÄÖÜß\s-]+" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="instrument">Genutztes Messinstrument:</label>
+          <select class="form-control" id="instrument">
+            <option>Zollstock</option>
+            <option>Maßband</option>
+            <option>Lasermessgerät</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="objectType">Art des Objektes:</label>
+          <select class="form-control" id="objectType">
+            <option>Einfamilienhaus</option>
+            <option>Mehrfamilienhaus</option>
+            <option>Wohnung</option>
+            <option>Sonstige</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="floors">Anzahl der Vollgeschosse:</label>
+          <input type="number" class="form-control" id="floors" min="1" value="1" />
+        </div>
+      </div>
+    </fieldset>
   </form>
+
 </div>
 <footer class="container mt-5 fixed-bottom mb-4" style="">
   <button id="next-page" class="btn btn-primary continue-btn full-btn">Weiter</button>

@@ -348,14 +348,20 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    localStorage.setItem(roomKey, JSON.stringify(roomData));
+    // Only save if at least one area with both width and length exists
+    if (roomData.areas.length > 0) {
+      localStorage.setItem(roomKey, JSON.stringify(roomData));
 
-    if (currentEditingKey && currentEditingKey !== uid) {
-      localStorage.removeItem(currentEditingKey);
+      if (currentEditingKey && currentEditingKey !== uid) {
+        localStorage.removeItem(currentEditingKey);
+      }
+      currentEditingKey = null;
+      $('#roomModal').modal('hide');
+      displayRooms();
+    } else {
+      // You can show an alert or some other form of notification here
+      alert("Es muss mindestens ein Teilbereich mit Länge und Breite existieren um speichern zu können.");
     }
-    currentEditingKey = null;
-    $('#roomModal').modal('hide');
-    displayRooms();
   });
 
   nextPageButton.addEventListener('click', function() {

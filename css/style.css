@@ -7,6 +7,9 @@ footer .btn.full-btn {
 footer {
     text-align: center;
 }
+.container {
+    margin-bottom: 100px;
+}
 footer {
     margin-bottom: 30px;
 }
@@ -31,6 +34,11 @@ footer {
 .roomEnd {
     border-bottom: 2px solid #dee2e6;
 }
+
+#table-actions {
+    margin-bottom: 150px;
+}
+
 .formsection {
     margin-bottom: 10px;
 }

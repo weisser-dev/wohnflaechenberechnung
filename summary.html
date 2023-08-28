@@ -6,6 +6,9 @@
   <title>Wohnflächenberechnung - Zusammenfassung</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <link href="css/style.css" rel="stylesheet">
 </head>
@@ -16,11 +19,17 @@
   </div>
   <div class="button-group-wrapper">
     <div class="button-group float-left">
-      <button id="export-icon" class="btn btn-secondary rounded-sm mt-2">
+      <button id="import-data" class="btn btn-secondary rounded-sm mt-2">
+        <i class="fas fa-file-import"></i>
+      </button>
+      <button id="export-data" class="btn btn-secondary rounded-sm mt-2">
         <i class="fas fa-file-export"></i>
       </button>
       <button id="print-icon" class="btn btn-secondary rounded-sm mt-2">
         <i class="fas fa-print"></i>
+      </button>
+      <button id="clear-data" class="btn btn-danger rounded-sm mt-2">
+        <i class="fas fa-trash"></i>
       </button>
     </div>
   </div>
@@ -39,7 +48,7 @@
         <div class="object">
           <div class="description">
             <div class="textarea-wrapper">
-              <textarea class="form-control hidden-textarea" id="object-address" rows="2" placeholder="Musterstraße 123\n12345 Musterstadt"></textarea>
+              <textarea class="form-control hidden-textarea" id="object-address-top" rows="2" placeholder="Musterstraße 123\n12345 Musterstadt"></textarea>
               <i class="fas fa-edit edit-icon"></i>
             </div>
             <div class="image">
@@ -55,9 +64,9 @@
         <div class="author-details">
           <h4>Verfasserdaten</h4>
           <div class="form-group">
-            <label for="verfasserdaten">Verfasserdaten:</label>
+            <label for="verfasserdaten_top">Verfasserdaten:</label>
             <div class="textarea-wrapper">
-              <textarea class="form-control hidden-textarea" id="verfasserdaten" rows="5" placeholder="Max Mustermann\nMusterstraße 123\n12345 Musterstadt\nmax.mustermann@email.de\n0123 234523"></textarea>
+              <textarea class="form-control hidden-textarea" id="verfasserdaten_top" rows="5" placeholder="Max Mustermann\nMusterstraße 123\n12345 Musterstadt\nmax.mustermann@email.de\n0123 234523"></textarea>
               <i class="fas fa-edit edit-icon"></i>
             </div>
           </div>
@@ -87,7 +96,7 @@
           <div class="person-author ">
             <h4>Verfasser:</h4>
             <div class="textarea-wrapper">
-              <textarea class="form-control hidden-textarea" id="verfasserdaten" rows="3" placeholder="Max Mustermann\nMusterstraße 123\n12345 Musterstadt"></textarea>
+              <textarea class="form-control hidden-textarea" id="verfasserdaten_bottom" rows="3" placeholder="Max Mustermann\nMusterstraße 123\n12345 Musterstadt"></textarea>
               <i class="fas fa-edit edit-icon"></i>
             </div>
 
@@ -113,7 +122,7 @@
 
           <div class="values">
             <div class="textarea-wrapper">
-              <textarea class="form-control hidden-textarea" id="object-daten" rows="4" placeholder="Musterstraße 123\n12345 Musterstadt\nEinfamilienhaus\n2"></textarea>
+              <textarea class="form-control hidden-textarea" id="object-address-bottom" rows="4" placeholder="Musterstraße 123\n12345 Musterstadt\nEinfamilienhaus\n2"></textarea>
               <i class="fas fa-edit edit-icon"></i>
             </div>
             <input class="measuring-device hidden-input" id="object-measuring-details" placeholder="Zollstock"></input>
@@ -171,14 +180,28 @@
 </footer>
 
 <!-- Modal -->
-<div id="confirmationModal" class="modal">
-  <div class="modal-content">
-    <p>Möchten Sie wirklich eine neue Wohnflächenberechnung starten? Alle ihre jetzigen Informationen gehen verloren, da diese nur lokal gespeichert sind.</p>
-    <button id="yes-button">Ja</button>
-    <button id="no-button">Nein</button>
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmationModalLabel">Bestätigung</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Schließen">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Möchten Sie wirklich eine neue Wohnflächenberechnung starten? Alle ihre jetzigen Informationen gehen verloren, da diese nur lokal gespeichert sind.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
+        <button type="button" class="btn btn-primary" id="yes-button">Ja</button>
+      </div>
+    </div>
   </div>
 </div>
-</div>
+
 <script src="js/summary.js"></script>
+<script src="js/utils.js"></script>
 </body>
 </html>
