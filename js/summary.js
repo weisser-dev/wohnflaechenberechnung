@@ -44,7 +44,10 @@ function displaySummary() {
             let totalArea = 0;
 
             roomData.areas.forEach((area) => {
-                const areaSize = area.length * area.width * parseFloat(area.height);
+                let areaSize = area.length * area.width * parseFloat(area.height);
+                if(roomData.roomType == 'A') {
+                  areaSize = areaSize * -1;
+                }
                 totalArea += areaSize;
             });
 
@@ -186,7 +189,10 @@ function displayDetailedSummary() {
             areaRow.insertCell(0);
             areaRow.insertCell(1);
 
-            const areaSize = area.length * area.width * parseFloat(area.height);
+            let areaSize = area.length * area.width * parseFloat(area.height);
+            if(roomData.roomType == 'A') {
+                areaSize = areaSize * -1;
+            }
             totalArea += areaSize;
 
             areaRow.insertCell(2).innerText = `${area.length.toFixed(2)}m x ${area.width.toFixed(2)}m`;

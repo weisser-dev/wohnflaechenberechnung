@@ -30,6 +30,10 @@ document.addEventListener('click', function(event) {
     }
     svgContainer.innerHTML = svg;
   }
+  if (event.target.classList.contains('delete-area') || event.target.parentElement.classList.contains('delete-area')) {
+    const areaRow = event.target.closest('.form-row');
+    areaRow.remove();
+  }
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -51,13 +55,19 @@ document.addEventListener('DOMContentLoaded', function() {
       areaSection.removeChild(areaSection.firstChild);
     }
 
+    let newEmptyRow;
     roomData.areas.forEach((area, index) => {
 
       const newRow = document.createElement('div');
+      newEmptyRow = document.createElement('div');
       newRow.className = 'form-row area-row';
+      newRow.style.marginTop = '20px';
+      newEmptyRow.className = newRow.className;
+      newEmptyRow.style.marginTop = '20px';
       newRow.innerHTML = `
       <div class="col-12 formsection">
         <label>Teilbereich</label>
+        <button class="btn btn-danger btn-sm ml-2 delete-area" style="display:none;"><i class="fas fa-trash"></i></button>
         <div class="d-flex align-items-center">
           <select class="form-control shape mr-2">
             <option value="rectangle">Rechteck</option>
@@ -81,12 +91,19 @@ document.addEventListener('DOMContentLoaded', function() {
         </select>
       </div>
     `;
+      newEmptyRow.innerHTML = newRow.innerHTML;
       newRow.querySelector('.shape').value = area.shape;
       newRow.querySelector('.length').value = area.length;
       newRow.querySelector('.width').value = area.width;
       newRow.querySelector('.height').value = area.height;
       areaSection.appendChild(newRow);
+
+      const deleteButton = newRow.querySelector('.delete-area');
+      if (area.length && area.width) {
+        deleteButton.style.display = 'inline-block';
+      }
     });
+    areaSection.appendChild(newEmptyRow);
 
     $('#roomModal').modal('show');
   }
@@ -147,6 +164,9 @@ document.addEventListener('DOMContentLoaded', function() {
           areaRow.insertCell(2).innerText = areaType;
           areaRow.insertCell(3);
         });
+        if(roomData.roomType == 'A') {
+          totalArea = totalArea * -1;
+        }
         totalAreaSum += totalArea;
         const totalRow = roomTable.insertRow();
         totalRow.insertCell(0);
@@ -208,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
     clearTimeout(tooltipTimer);
   });
 
+
   const saveRoomButton = document.getElementById('save-room');
   const nextPageButton = document.getElementById('next-page');
   const prevPageButton = document.getElementById('prev-page');
@@ -228,6 +249,18 @@ document.addEventListener('DOMContentLoaded', function() {
       lastRow.querySelectorAll('.dimensions').forEach(el => el.style.display = 'none');
       lastRow.querySelectorAll(`.${shape}`).forEach(el => el.style.display = 'block');
     }
+
+    document.querySelectorAll('.area-row').forEach(row => {
+      const lengthInput = row.querySelector('.length').value;
+      const widthInput = row.querySelector('.width').value;
+      const deleteButton = row.querySelector('.delete-area');
+
+      if (lengthInput && widthInput) {
+        deleteButton.style.display = 'inline-block';
+      } else {
+        deleteButton.style.display = 'none';
+      }
+    });
   });
 
   function addRoom() {
@@ -242,9 +275,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const newRow = document.createElement('div');
     newRow.className = 'form-row area-row';
+    newRow.style.marginTop = '20px';
     newRow.innerHTML = `
       <div class="col-12 formsection">
         <label>Teilbereich</label>
+        <button class="btn btn-danger btn-sm ml-2 delete-area" style="display:none;"><i class="fas fa-trash"></i></button>
         <div class="d-flex align-items-center">
           <select class="form-control shape mr-2">
             <option value="rectangle">Rechteck</option>
