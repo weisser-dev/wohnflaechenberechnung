@@ -167,8 +167,25 @@ function uploadImage() {
     });
 }
 
+let rowCount = 0;
+let tableCount = 0;
+let roomTable = document.getElementById('room-table');
+// Function to create a new table when row limit is reached
+function createNewTable() {
+    const newTable = document.createElement('table');
+    newTable.id = 'room-table';
+    newTable.className = 'table mt-4';
+    newTable.style.marginTop = '30px';
+    const newPrintDiv = document.createElement('div');
+    newPrintDiv.className = 'new-page';
+    roomTable.parentNode.appendChild(newPrintDiv);
+    roomTable.parentNode.appendChild(newTable);
+    //document.body.appendChild(newTable);
+    roomTable = newTable;
+    rowCount = 0;
+}
 function displayDetailedSummary() {
-    const roomTable = document.getElementById('room-table');
+    roomTable = document.getElementById('room-table');
     let roomNumber = 0;
     let totalAreaSum = 0;
     let totalNutzflaeche = 0; // Total utility area
@@ -199,14 +216,17 @@ function displayDetailedSummary() {
         const roomNameCell = roomNameRow.insertCell(1);
         roomNameCell.innerText = roomData.roomName + " (" + roomData?.roomFloor + ")";
         roomNameRow.classList.add('roomStart');
+
         // Add empty cells for the first row
         roomNameRow.insertCell(2);
         roomNameRow.insertCell(3);
         roomNameRow.insertCell(4);
         roomNameRow.insertCell(5);
-
+        rowCount++;
         roomData.areas.forEach((area, index) => {
             const areaRow = roomTable.insertRow();
+            rowCount++;
+
             // Add empty cells for the first and second columns
             areaRow.insertCell(0);
             areaRow.insertCell(1);
@@ -215,13 +235,6 @@ function displayDetailedSummary() {
             if (roomData.roomType === 'A') {
                 areaSize = areaSize * -1;
             }
-            if (roomData.roomType === 'N') {
-                totalNutzArea += areaSize; // Add to Nutzfläche if type is N
-            } else {
-                totalArea += areaSize;
-            }
-
-            areaRow.insertCell(2).innerText = `${area.length.toFixed(2)}m x ${area.width.toFixed(2)}m`;
 
             let areaType = roomData.roomType;
             if (area.height === '0.5') {
@@ -229,19 +242,27 @@ function displayDetailedSummary() {
             } else if (area.height === '0') {
                 areaType += ' (0%)';
             }
+
+            areaRow.insertCell(2).innerText = `${area.length.toFixed(2)}m x ${area.width.toFixed(2)}m`;
             areaRow.insertCell(3).innerText = areaType;
 
             const wohnflaecheCell = areaRow.insertCell(4);
             wohnflaecheCell.className = 'text-right';
-            wohnflaecheCell.innerText = areaType === 'N' ? '0.000 m²' : `${areaSize.toFixed(3)} m²`;
+            wohnflaecheCell.innerText = (areaType === 'N' || areaType === 'N (50%)' || areaType === 'N (0%)') ? '0.000 m²' : `${areaSize.toFixed(3)} m²`;
 
             const nutzflaecheCell = areaRow.insertCell(5);
             nutzflaecheCell.className = 'text-right';
-            nutzflaecheCell.innerText = areaType === 'W' ? '0.000 m²' : `${areaSize.toFixed(3)} m²`;
+            nutzflaecheCell.innerText = (areaType === 'N' || areaType === 'N (50%)' || areaType === 'N (0%)') ? `${areaSize.toFixed(3)} m²` : '0.000 m²';
+
+            if (areaType === 'N' || areaType === 'N (50%)' || areaType === 'N (0%)') {
+                totalNutzArea += areaSize;
+            } else {
+                totalArea += areaSize;
+            }
         });
 
         totalAreaSum += totalArea;
-        totalNutzflaeche += totalNutzArea; // Add to total Nutzfläche
+        totalNutzflaeche += totalNutzArea; // Add to total utility area
 
         // Last row for the total area of the room
         const totalRow = roomTable.insertRow();
@@ -258,12 +279,17 @@ function displayDetailedSummary() {
         const totalNutzCell = totalRow.insertCell(5);
         totalNutzCell.className = 'text-right';
         totalNutzCell.innerText = `= ${totalNutzArea.toFixed(3)} m²`;
+        if((rowCount >= 16 && tableCount == 0) || (rowCount >= 22 && tableCount > 0)) {
+            createNewTable();
+            tableCount++;
+        }
     });
 
     // Update the total area sizes in the HTML
     document.getElementById('total-wohnflaeche').innerText = totalAreaSum.toFixed(2) + ' m²';
     document.getElementById('total-nutzflaeche').innerText = totalNutzflaeche.toFixed(2) + ' m²';
 }
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
