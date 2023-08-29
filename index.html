@@ -30,18 +30,21 @@
     </div>
   </div>
 
-  <div class="alert alert-info" role="alert">
+  <div id="infoBox" class="alert alert-info" role="alert">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="d-flex">
-        <i class="fas fa-exclamation-triangle"></i>
-        <div class="mx-auto text-center">
+      <div class="d-flex justify-content-center align-items-center w-100">
+        <i class="fas fa-exclamation-triangle d-flex align-items-center"></i>
+        <div class="mx-auto text-center flex-grow-1">
           Allgemeine Informationen / Datenspeicherung
         </div>
-      </div>
-      <div>
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#infoText" aria-expanded="false" aria-controls="infoText">
-          <i class="fas fa-chevron-down"></i>
-        </button>
+        <div class="d-flex align-items-center">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#infoText" aria-expanded="false" aria-controls="infoText">
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <button class="btn btn-link" type="button" id="closeInfoBox">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -183,10 +186,28 @@
       </div>
     </fieldset>
   </form>
-
+</div>
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Bestätigung</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Möchten Sie die Allgemeinen Informationen wirklich dauerhaft ausblenden? (Dies kann nur durch Löschen Ihrer Cookies rückgängig gemacht werden, hierbei handelt es sich um ein technisches Cookie, welches nicht genehmigungspflichtig ist)
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
+        <button type="button" class="btn btn-primary" id="yesButton">Ja</button>
+      </div>
+    </div>
+  </div>
 </div>
 <footer class="container mt-5 fixed-bottom mb-4" style="">
-  <button id="next-page" class="btn btn-primary continue-btn full-btn">Weiter</button>
+  <button id="next-page" class="btn btn-success continue-btn full-btn">Weiter</button>
 </footer>
 <script src="js/index.js"></script>
 <script src="js/utils.js"></script>

@@ -71,3 +71,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
   displayRooms();
 });
+
+$(document).ready(function() {
+  if (document.cookie.includes("disableDSGVOHint=true")) {
+    $("#infoBox").hide();
+  }
+
+  $("#closeInfoBox").click(function() {
+    $("#infoModal").modal("show");
+  });
+
+  $("#yesButton").click(function() {
+    document.cookie = "disableDSGVOHint=true; path=/";
+    $("#infoBox").hide();
+    $("#infoModal").modal("hide");
+  });
+});
+
+

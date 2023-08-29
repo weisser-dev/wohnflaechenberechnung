@@ -1,8 +1,13 @@
-footer .btn {
+footer .btn.third-btn {
+    width: 32.66%;
+}
+
+footer .btn.half-btn {
     width: 49%;
 }
+
 footer .btn.full-btn {
-    width: 100%;
+    width: 98%;
 }
 footer {
     text-align: center;

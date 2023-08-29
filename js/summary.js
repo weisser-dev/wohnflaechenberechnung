@@ -61,6 +61,7 @@ function displaySummary() {
 
 // Event listeners
 document.getElementById('print-icon').addEventListener('click', printPage);
+document.getElementById('print-btn').addEventListener('click', printPage);
 document.getElementById('go-back').addEventListener('click', goBackToRooms);
 document.getElementById('new-calculation').addEventListener('click', function() {
     // Show the modal
