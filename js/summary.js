@@ -26,8 +26,11 @@ function displaySummary() {
 
             roomData.areas.forEach((area) => {
                 let areaSize = area.length * area.width * parseFloat(area.height);
-                if(roomData.roomType == 'A') {
-                  areaSize = areaSize * -1;
+                if (roomData.roomType === 'A') {
+                    areaSize = areaSize * -1;
+                }
+                if (roomData.roomType === 'N') {
+                    areaSize = 0; // Set area to 0 if type is N
                 }
                 totalArea += areaSize;
             });
@@ -41,7 +44,7 @@ function displaySummary() {
     }
 
     // Sortieren der Räume nach dem Geschoss
-    const floorOrder = ['DG', 'OG', 'EG', 'KG'];
+    const floorOrder = ['KG', 'EG', 'OG', 'DG'];
     rooms.sort((a, b) => floorOrder.indexOf(a.floor) - floorOrder.indexOf(b.floor));
 
     // Hinzufügen der sortierten Räume zur Tabelle
@@ -51,13 +54,14 @@ function displaySummary() {
         const cell2 = document.createElement('td');
 
         cell1.textContent = `${room.name} (${room.floor})`;
-        cell2.textContent = `${room.totalArea.toFixed(3)} m²`;
+        cell2.textContent = `${room.totalArea.toFixed(2).replace('.', ',')} m²`; // Replaced '.' with ',' for German formatting
 
         row.appendChild(cell1);
         row.appendChild(cell2);
         tableBody.appendChild(row);
     });
 }
+
 
 // Event listeners
 document.getElementById('print-icon').addEventListener('click', printPage);
@@ -179,13 +183,14 @@ function displayDetailedSummary() {
     }
 
     // Sort rooms by floor
-    const floorOrder = ['DG', 'OG', 'EG', 'KG'];
-    rooms.sort((a, b) => floorOrder.indexOf(a.floor) - floorOrder.indexOf(b.floor));
+    const floorOrder = ['KG', 'EG', 'OG', 'DG'];
+    rooms.sort((a, b) => floorOrder.indexOf(a.roomFloor) - floorOrder.indexOf(b.roomFloor));
 
     // Add sorted rooms to the table
     rooms.forEach((roomData) => {
         roomNumber++; // Increment room number
         let totalArea = 0;
+        let totalNutzArea = 0; // Total utility area for this room
 
         // First row for room name and room number
         const roomNameRow = roomTable.insertRow();
@@ -207,10 +212,14 @@ function displayDetailedSummary() {
             areaRow.insertCell(1);
 
             let areaSize = area.length * area.width * parseFloat(area.height);
-            if(roomData.roomType == 'A') {
+            if (roomData.roomType === 'A') {
                 areaSize = areaSize * -1;
             }
-            totalArea += areaSize;
+            if (roomData.roomType === 'N') {
+                totalNutzArea += areaSize; // Add to Nutzfläche if type is N
+            } else {
+                totalArea += areaSize;
+            }
 
             areaRow.insertCell(2).innerText = `${area.length.toFixed(2)}m x ${area.width.toFixed(2)}m`;
 
@@ -232,6 +241,7 @@ function displayDetailedSummary() {
         });
 
         totalAreaSum += totalArea;
+        totalNutzflaeche += totalNutzArea; // Add to total Nutzfläche
 
         // Last row for the total area of the room
         const totalRow = roomTable.insertRow();
@@ -247,30 +257,14 @@ function displayDetailedSummary() {
 
         const totalNutzCell = totalRow.insertCell(5);
         totalNutzCell.className = 'text-right';
-        totalNutzCell.innerText = '= 0.000 m²';
+        totalNutzCell.innerText = `= ${totalNutzArea.toFixed(3)} m²`;
     });
 
-    if (totalAreaSum > 0 || totalNutzflaeche > 0) {
-        const totalRow = roomTable.insertRow();
-        totalRow.insertCell(0).innerText = 'Gesamt';
-        totalRow.insertCell(1);
-        totalRow.insertCell(2);
-        totalRow.insertCell(3);
-        totalRow.classList.add('roomEnd');
-
-        const totalCell = totalRow.insertCell(4);
-        totalCell.className = 'text-right';
-        totalCell.innerText = totalAreaSum.toFixed(2) + 'm²';
-
-        const totalNutzCell = totalRow.insertCell(5);
-        totalNutzCell.className = 'text-right';
-        totalNutzCell.innerText = totalNutzflaeche.toFixed(2) + 'm²';
-    }
     // Update the total area sizes in the HTML
     document.getElementById('total-wohnflaeche').innerText = totalAreaSum.toFixed(2) + ' m²';
     document.getElementById('total-nutzflaeche').innerText = totalNutzflaeche.toFixed(2) + ' m²';
-
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     loadData();
