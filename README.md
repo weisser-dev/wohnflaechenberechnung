@@ -2,9 +2,11 @@
 
 ## Overview
 
-[Visit the GitHub Page](https://weisser-dev.github.io/wohnflaechenberechnung/)
+**Live:** [wohnflaechenberechnung.weisser.dev](https://wohnflaechenberechnung.weisser.dev) (also on [GitHub Pages](https://weisser-dev.github.io/wohnflaechenberechnung/))
 
-This web application is designed for calculating the living area of buildings according to the German Wohnflächenverordnung (WoFLV). It is developed using HTML, CSS, and JavaScript and stores all data locally in the user's browser.
+![Screenshot of wohnflaechenberechnung.weisser.dev](docs/screenshot.jpg)
+
+This web application is designed for calculating the living area of buildings according to the German Wohnflächenverordnung (WoFLV). The UI is in German. It is developed using HTML, CSS, and JavaScript and stores all data locally in the user's browser.
 
 ## Features
 
